@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/mainsite.css">
+    <link rel="icon" type="image/x-icon" href="../img/favicon.svg">
+    <title>Main Page</title>
+</head>
+<body>
+    <div class="base-container">
+        <main>
+            <section class="left">
+                <div class="title">
+                    <p>Hollywood Undead - Hourglass</p>
+                </div>
+                <div class="author">
+                    <p>from Hotel California album</p>
+                </div>
+                <div class="photo">
+                    <img src="../img/hukalifornia.jpg" alt="cover">
+                </div>
+                <div class="player">
+                    <a href="https://www.youtube.com/watch?v=OXsbpefY_xc" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+                </div>
+            </section>
+
+            <section class="right">
+                <div class="genres">
+                   <p>Main genres:</p>
+                   <ul>
+                    <li>ala ma kota</li>
+                    <li>kot ma aids</li>
+                    <li>więc </li>
+                    <li>ala też</li>
+                   </ul>
+                </div>
+                <div class="where">
+                    <p>Availible on:</p>
+                    <ul>
+                        <li>ala ma kota</li>
+                        <li>kot ma aids</li>
+                        <li>więc </li>
+                        <li>ala też</li>
+                       </ul>
+                </div>
+                <div class="rating">
+                    <p>Did you like it?</p>
+                    <form action="" method="POST">
+                        <select name="ratingselect" id="myselect" onchange="this.form.submit()">
+                            <option value="1">I hate it</option>
+                            <option value="2">I don't like it</option>
+                            <option selected="selected" value="3">I'm neutral about it</option>
+                            <option value="4">I like it</option>
+                            <option value="5">I love it</option>
+                        </select>
+                    </form>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <div class="small-logo">
+                <img onclick="window.location='#';" src="../img/shipify.svg" alt="shipify">
+            </div>
+            <div class="search-bar">
+                <form action="">
+                    <input type="text" name="search" placeholder="search for your fav music">
+                </form>
+            </div>
+            <div class="profile-link" >
+                <p onclick="window.location='login.html';" >profile</p>
+                <img src="../img/undraw_pic_profile_re_lxn6 1.svg" alt="profile" onclick="window.location='login.html';">
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
