@@ -1,10 +1,17 @@
 <?php
 
-declare (strict_types=1);
+require 'Routing.php';
 
-function foo(string $a): string {
-    return $a;
-}
+$path = trim($_SERVER['REQUEST_URI'], '/');
+$path = parse_url($path, PHP_URL_PATH);
 
-echo foo(5);
+Routing::get('index', 'DefaultController');
+Routing::get('login', 'DefaultController');
+
+Routing::get('main', 'DefaultController');
+Routing::get('profile', 'DefaultController');
+Routing::get('signup', 'DefaultController');
+
+Routing::run($path);
+
 ?>

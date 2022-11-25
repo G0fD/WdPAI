@@ -1,37 +1,117 @@
+p{
+    margin: 0;
+    padding-top:4vh;
+    font-size: 2em;
+    color: #E5F0FF;
+}
+
+.container{
+    justify-content:flex-start;
+}
+.logo{
+    height: 10vh;
+    margin: 0;
+    text-align: left;
+}
+
+.logo >img{
+    width: 20%;
+}
+
 .signup-container{
     width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .signup-container>form{
-    margin-right: 20%;
-    margin-left: 20%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 60vh;
-    width: 60%;
+    margin: 5vh 10vw;
+    height: 80vh;
+    width: 80vw;
     background: rgba(51, 75, 73, 0.96);
     border-radius: 25px;
 
     font-family: 'Libre Baskerville';
     font-style: normal;
     font-weight: 400;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
-.signup-container > form > p{
-    width: 50%;
-    padding: 1em;
-    padding-bottom: 0;
-    margin: 1em;
-    margin-top: 0;
-    margin-bottom: 0;
-
+.title{
+    flex-basis: 100%;
+    width: 80vw;
+    height: 5vh;
     text-align: left;
-    color: #E5F0FF;
-    font-size: 3vh;
+    text-align: center;
 }
 
-.logo >img{
-    width: 20%;
+.title>p{
+    padding-top: 1em;
+}
+
+.basic{
+    height: 75vh;
+    width: 49vw;
+    display: grid;
+    grid-template-rows: repeat(9, 1fr);
+    grid-gap: 0;
+    overflow: auto;
+    margin-left: 5vw;
+    align-items: center;
+}
+ .basic >input{
+    width: 45vw;
+    margin: 0;
+    padding: 1.5vh 0.5vw;
+    height: 2em;
+    font-size: 1.3em;
+}
+
+.details{
+    height: 75vh;
+    width: 21vw;
+    display: grid;
+    grid-template-rows: repeat(9, 1fr);
+    grid-gap: 0;
+    overflow: auto;
+    margin-right: 2vw;
+    align-items: center;
+    text-align: center;
+}
+
+.details>input{
+    width: 19.5vw;
+    margin: 0;
+    padding: 1.5vh 0.5vw;
+    height: 2em;
+    font-size: 1.3em;
+}
+
+select{
+    height: 3em;
+    margin-top: 0;
+    font-family: 'Libre Baskerville';
+    font-style: normal;
+    font-weight: 400;
+    text-align: center;
+    background-color: #E5F0FF;
+    color: #064789;
+    border: 1px solid #000000;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    align-self: center;
+    font-size: 1.2em;  
+    width: 18vm;
+}
+
+button{
+    margin: 0;
+    padding: 0;
+    width: 70%;
+    justify-self: center;
+    line-height: 2.5em;    
+    font-size: 2.5vh;
 }
