@@ -22,7 +22,7 @@
                 </li>
                 <li>
                     <a href="#" class="button">My matches</a>
-                </li> 
+                </li>
                 <li>
                 </li>
                 <li>

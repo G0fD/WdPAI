@@ -14,13 +14,13 @@
         <main>
             <section class="left">
                 <div class="title">
-                    <p>Hollywood Undead - Hourglass</p>
+                    <p><?=$song->getAuthor()." - ".$song->getTitle()?></p>
                 </div>
-                <div class="author">
-                    <p>from Hotel California album</p>
+                <div class="album">
+                    <p><?='from '.$song->getAlbum().' album'?></p>
                 </div>
                 <div class="photo">
-                    <img src="public/img/hukalifornia.jpg" alt="cover">
+                    <img src="public/uploads/<?=$song->getImage() ?>" alt="cover">
                 </div>
                 <div class="player">
                     <a href="https://www.youtube.com/watch?v=OXsbpefY_xc" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
@@ -31,20 +31,22 @@
                 <div class="genres">
                    <p>Main genres:</p>
                    <ul>
-                    <li>ala ma kota</li>
-                    <li>kot ma aids</li>
-                    <li>więc </li>
-                    <li>ala też</li>
+                    <?php
+                    foreach ($song->getGenres() as $genre){
+                        echo "<li>".$genre."</li>";
+                    }
+                    ?>
                    </ul>
                 </div>
                 <div class="where">
                     <p>Availible on:</p>
                     <ul>
-                        <li>ala ma kota</li>
-                        <li>kot ma aids</li>
-                        <li>więc </li>
-                        <li>ala też</li>
-                       </ul>
+                    <?php
+                    foreach ($song->getGenres() as $genre){
+                        echo "<li>".$genre."</li>";
+                    }
+                    ?>
+                    </ul>
                 </div>
                 <div class="rating">
                     <p>Did you like it?</p>
