@@ -4,27 +4,15 @@ namespace models;
 
 class User
 {
-    private $email;
+    private $id;
+    private $username;
     private $password;
-    private $name;
-    private $surname;
 
-    public function __construct(string $email, string $password, string $name, string $surname)
+    public function __construct(string $id, string $username, string $password)
     {
-        $this->email = $email;
+        $this->id = $id;
+        $this->username = $username;
         $this->password = $password;
-        $this->name = $name;
-        $this->surname = $surname;
-    }
-
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email)
-    {
-        $this->email = $email;
     }
 
     public function getPassword(): string
@@ -37,24 +25,24 @@ class User
         $this->password = $password;
     }
 
-    public function getName(): string
+    public function getId():int
     {
-        return $this->name;
+        return $this->id;
     }
 
-    public function setName(string $name)
+    public function setId(int $id)
     {
-        $this->name = $name;
+        $this->id = $id;
     }
 
-    public function getSurname(): string
+    public function getUsername():string
     {
-        return $this->surname;
+        return $this->username;
     }
 
-    public function setSurname(string $surname)
+    public function setUsername(string $username)
     {
-        $this->surname = $surname;
+        $this->username = $username;
     }
 
 }

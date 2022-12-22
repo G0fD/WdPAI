@@ -1,6 +1,11 @@
 <?php
+
+use models\Song;
+use repository\SongRepository;
+
 require_once 'AppController.php';
 require_once __DIR__.'/../models/Song.php';
+require_once __DIR__.'/../repository/SongRepository.php';
 
 class SongController extends AppController
 {
@@ -8,7 +13,15 @@ class SongController extends AppController
     const SUPPORTED_TYPES = ['image/png', 'image/jpeg'];
     const UPLOAD_DIRECTORY = '/../public/uploads/';
 
-    private $messages = [];
+    private $message = [];
+    private $songRepository;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->songRepository = new SongRepository();
+
+    }
 
     public function addSong(){
         if ($this->isPost() && is_uploaded_file($_FILES['file']['tmp_name']) && $this->validate($_FILES['file'])){
@@ -18,22 +31,23 @@ class SongController extends AppController
                 dirname(__DIR__).self::UPLOAD_DIRECTORY.$_FILES['file']['name']
             );
 
-            $song = new \models\Song($_POST['title'],$_POST['author'],$_POST['album'],$_FILES['file']['name'],$_POST['genres']);
+            $song = new Song($_POST['title'],$_POST['author'],$_POST['album'],$_FILES['file']['name'],$_POST['genres'],$_POST['where']);
+            $this->songRepository->addSong($song);
 
-            return $this->render('main',['messages'=>$this->messages,'song'=>$song]);
+            return $this->render('main',['messages'=>$this->message,'song'=>$song]);
         }
-        $this->render('addsong', ['messages' => $this->messages]);
+        return $this->render('addsong', ['messages' => $this->message]);
     }
 
     private function validate(array $file):bool
     {
         if ($file['size']>self::MAX_FILE_SIZE ){
-            $this->messages[] = 'File is too large';
+            $this->message[] = 'File is too large';
             return false;
         }
         if (!isset($file['type']) && !in_array($file['type'], self::SUPPORTED_TYPES)){
 
-            $this->messages[] = 'File type is not supported';
+            $this->message[] = 'File type is not supported';
             return false;
         }
         return true;

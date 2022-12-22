@@ -25,7 +25,7 @@
                     ?>
                 </div>
                 <p>username: </p>
-                <input type="text" name="email" placeholder="email@email.com">
+                <input type="text" name="login" placeholder="username">
                 <p>password: </p>
                 <input type="password" name="password" placeholder="password">
                 <button type="submit">Log in</button>

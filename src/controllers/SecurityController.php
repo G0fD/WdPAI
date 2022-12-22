@@ -1,7 +1,9 @@
 <?php
 
-use models\User;
+use models\Song;
+use repository\UserRepository;
 
+require_once __DIR__.'/../repository/UserRepository.php';
 require_once 'AppController.php';
 require_once __DIR__.'/../models/User.php';
 
@@ -9,25 +11,34 @@ class SecurityController extends AppController
 {
     public function login(){
 
-        $user = new User('jsnow@pk.edu.pl', 'admin', 'John','Snow');
+        $userRepository = new UserRepository();
 
         if (!$this->isPost()){
             return $this->render('login');
         }
 
-        $email = $_POST["email"];
+        $login = $_POST["login"];
         $password = $_POST["password"];
 
-        if($user->getEmail() !== $email){
+        $user = $userRepository->getUserByLogin($login);
+
+        if (!$user){
+            return $this->render('login', ['messages' => ['User does not exist!']]);
+        }
+
+        if($user->getUsername() !== $login){
             return $this->render('login', ['messages' => ['User with this email does not exist!']]);
         }
 
         if($user->getPassword() !== $password){
-            return $this->render('login', ['messages' => ['Wrong password']]);
+            return $this->render('login', ['messages' => ['Wrong password!']]);
         }
 
-        //return $this->render('main');
-        $url = "http://$_SERVER[HTTP_HOST]";
-        header("Location: {$url}/main");
+        //tmp song
+        $song = new Song('Title','Author','album','gifnakirihello.gif',[1,2],[4,5]);
+
+        return $this->render('main',['messages'=>" ",'song'=>$song]);
+        //$url = "http://$_SERVER[HTTP_HOST]";
+        //header("Location: {$url}/main");
     }
 }

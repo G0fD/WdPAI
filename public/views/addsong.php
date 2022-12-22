@@ -24,7 +24,7 @@
                     <a href="#" class="button">My matches</a>
                 </li>
                 <li>
-
+                    <a href="#" class="button">Admin - Add Song</a>
                 </li>
                 <li>
                     <p>SHIPify made by Jakub Jajkowicz</p>
@@ -51,11 +51,20 @@
                 <input type="file" name="file">
                 </section>
                 <section class="select">
+
                 <select name="genres[]" id="genres" multiple="multiple">
-                    <option value="Ania">Ania</option>
-                    <option value="Ma">Ma</option>
-                    <option value="Koteczka">Kota</option>
+                    <option value="1">Ania</option>
+                    <option value="2">Ma</option>
+                    <option value="3">Kota</option>
                 </select>
+
+                <select name="where[]" id="where" multiple="multiple">
+                    <option value="YouTube Music">YouTube Music</option>
+                    <option value="Spotify">Spotify</option>
+                    <option value="Tidal">Tidal</option>
+                    <option value="SoundCloud">SoundCloud</option>
+                </select>
+
                 </section>
                 <button type="submit">SEND</button>
             </form>

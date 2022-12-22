@@ -9,14 +9,16 @@ class Song
     private $album;
     private $image;
     private $genres = [];
+    private $where = [];
 
-    public function __construct($title, $author, $album, $image, array $genres)
+    public function __construct($title, $author, $album, $image, array $genres, array $where)
     {
         $this->title = $title;
         $this->author = $author;
         $this->album = $album;
         $this->image = $image;
         $this->genres = $genres;
+        $this->where = $where;
     }
 
     public function getTitle(): string
@@ -68,4 +70,15 @@ class Song
     {
         $this->genres = $genres;
     }
+
+    public function getWhere(): array
+    {
+        return $this->where;
+    }
+
+    public function setWhere(array $where)
+    {
+        $this->where = $where;
+    }
+
 }

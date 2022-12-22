@@ -23,7 +23,7 @@
                     <img src="public/uploads/<?=$song->getImage() ?>" alt="cover">
                 </div>
                 <div class="player">
-                    <a href="https://www.youtube.com/watch?v=OXsbpefY_xc" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+                    <a href="https://www.youtube.com/results?search_query=<?=str_replace(' ', '+' ,$song->getAuthor().' '.$song->getTitle())?>" target="_blank" rel="noopener noreferrer">Check on YouTube</a>
                 </div>
             </section>
 
@@ -42,8 +42,8 @@
                     <p>Availible on:</p>
                     <ul>
                     <?php
-                    foreach ($song->getGenres() as $genre){
-                        echo "<li>".$genre."</li>";
+                    foreach ($song->getWhere() as $where){
+                        echo "<li>".$where."</li>";
                     }
                     ?>
                     </ul>
@@ -73,8 +73,8 @@
                 </form>
             </div>
             <div class="profile-link" >
-                <p onclick="window.location='login.html';" >profile</p>
-                <img src="public/img/undraw_pic_profile_re_lxn6 1.svg" alt="profile" onclick="window.location='login.html';">
+                <p onclick="window.location='profile';" >profile</p>
+                <img src="public/img/undraw_pic_profile_re_lxn6 1.svg" alt="profile" onclick="window.location='profile';">
             </div>
         </footer>
     </div>

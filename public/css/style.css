@@ -36,7 +36,7 @@ body{
     width: 60%;
     background: rgba(51, 75, 73, 0.96);
     border-radius: 25px;
-
+    color: #BCD5F5;
     font-family: 'Libre Baskerville';
     font-style: normal;
     font-weight: 400;
@@ -51,8 +51,11 @@ body{
     margin-bottom: 0;
 
     text-align: left;
-    color: #E5F0FF;
     font-size: 3vh;
+}
+
+.messages{
+    font-size: 2.5vh;
 }
 
 button{

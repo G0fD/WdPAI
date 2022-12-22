@@ -25,6 +25,7 @@
 
 .photo>img{
     height: 100%;
+    max-width: 85%;
 }
 
 .player>a {
