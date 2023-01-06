@@ -35,6 +35,28 @@ class SongRepository extends Repository
         );
     }
 
+    public function getSongs():array
+    {
+        $result = [];
+        $stmt = $this->database->connect()->prepare('
+            SELECT * FROM songs
+        ');
+        $stmt->execute();
+        $songs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($songs as $song){
+            $result[] = new Song(
+                $song['title'],
+                $song['author'],
+                $song['album'],
+                $song['filename'],
+                $this->getGenres($song['id']),
+                ['Youtube',"Test"]
+            );
+        }
+        return $result;
+    }
+
     private function getGenres(int $id):array
     {
         $stmt = $this->database->connect()->prepare('
@@ -44,9 +66,7 @@ class SongRepository extends Repository
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
-        $genres[] = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $genres;
+        return $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
     }
 
     public function addSong(Song $song): void{

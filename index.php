@@ -11,9 +11,9 @@ Routing::get('login', 'DefaultController');
 Routing::get('profile', 'DefaultController');
 Routing::get('signup', 'DefaultController');
 
+Routing::get('main', 'SongController');
+
 Routing::post('login', 'SecurityController');
 Routing::post('addSong', 'SongController');
 
 Routing::run($path);
-
-?>

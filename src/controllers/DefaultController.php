@@ -8,10 +8,6 @@ class DefaultController extends AppController{
         $this->render('login');
     }
 
-    public function main(){
-        $this->render('main');
-    }
-
     public function profile(){
         $this->render('profile');
     }
@@ -20,4 +16,3 @@ class DefaultController extends AppController{
         $this->render('signup');
     }
 }
-?>

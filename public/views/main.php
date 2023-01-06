@@ -13,6 +13,7 @@
     <div class="base-container">
         <main>
             <section class="left">
+                <?php #var_dump($songs);?>
                 <div class="title">
                     <p><?=$song->getAuthor()." - ".$song->getTitle()?></p>
                 </div>

@@ -45,9 +45,9 @@
                 }
                 ?>
                 </div>
-                <input type="text" name="title" placeholder="song title">
-                <input type="text" name="author" placeholder="author name">
-                <input type="text" name="album" placeholder="album name">
+                <input type="text" name="title" placeholder="Song title">
+                <input type="text" name="author" placeholder="Author name">
+                <input type="text" name="album" placeholder="Album name">
                 <input type="file" name="file">
                 </section>
                 <section class="select">

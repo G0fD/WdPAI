@@ -22,7 +22,6 @@ class AppController {
 
     if (file_exists($templatePath)){
         extract($variables);
-
         ob_start();
         include $templatePath;
         $output = ob_get_clean();
@@ -30,4 +29,3 @@ class AppController {
     print $output;
     }
 }
-?>

@@ -20,11 +20,20 @@ class SongController extends AppController
     {
         parent::__construct();
         $this->songRepository = new SongRepository();
+    }
 
+    public function main(){
+        $songs = $this->songRepository->getSongs();
+        $this->render('main', ['song'=>$songs[0], 'songs' => $songs]);
     }
 
     public function addSong(){
-        if ($this->isPost() && is_uploaded_file($_FILES['file']['tmp_name']) && $this->validate($_FILES['file'])){
+
+        if (!$this->isPost()){
+            return $this->render('addsong');
+        }
+
+        if ($this->validate($_FILES['file']) && $this->isPost() && is_uploaded_file($_FILES['file']['tmp_name'])){
 
             move_uploaded_file(
                 $_FILES['file']['tmp_name'],
@@ -45,7 +54,7 @@ class SongController extends AppController
             $this->message[] = 'File is too large';
             return false;
         }
-        if (!isset($file['type']) && !in_array($file['type'], self::SUPPORTED_TYPES)){
+        if (isset($file['type']) && !in_array($file['type'], self::SUPPORTED_TYPES)){
 
             $this->message[] = 'File type is not supported';
             return false;
