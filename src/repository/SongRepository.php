@@ -57,16 +57,16 @@ class SongRepository extends Repository
         return $result;
     }
 
-    private function getGenres(int $id):array
+    public function getSongByTitleAuthor(string $searchString)
     {
+        $searchString = '%'.strtolower($searchString).'%';
         $stmt = $this->database->connect()->prepare('
-        SELECT id_genre FROM song_genres where id_song = :id
+        SELECT * FROM songs WHERE LOWER(title) LIKE :search OR LOWER(author) LIKE :search
         ');
-
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':search', $searchString, PDO::PARAM_STR);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function addSong(Song $song): void{
@@ -108,4 +108,17 @@ class SongRepository extends Repository
             }
         }
     }
+
+    private function getGenres(int $id):array
+    {
+        $stmt = $this->database->connect()->prepare('
+        SELECT id_genre FROM song_genres where id_song = :id
+        ');
+
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
+    }
+
 }

@@ -15,5 +15,6 @@ Routing::get('main', 'SongController');
 
 Routing::post('login', 'SecurityController');
 Routing::post('addSong', 'SongController');
+Routing::post('search', 'SongController');
 
 Routing::run($path);

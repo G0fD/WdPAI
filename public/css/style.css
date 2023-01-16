@@ -136,37 +136,27 @@ main{
 }
 
 footer{
-    width: 100%;
+    width: 100vw;
     height: 12vh;
     background: #334B49;
-    border-radius: 10px 10px 0px 0px;
+    border-radius: 10px 10px 0 0;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .small-logo{
-    width: 20%;
+    width: 20vw;
     margin-left: 2vh;
     margin-top: 1vh;
 }
-.search-bar{
-    width: 60%;
-}
+
 .profile-link{
     display: flex;
     justify-content: flex-end;
     align-items: center;
     margin-right: 1%;
     width: 19%;
-}
-
-.search-bar>form>input{
-    width: 100%;
-    margin: 0;
-    padding: 0.6em 0;
-    text-align: center;
-    font-size: 2vh;
 }
 
 .profile-link>p{

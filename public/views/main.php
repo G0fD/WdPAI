@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="public/css/style.css">
     <link rel="stylesheet" type="text/css" href="public/css/mainsite.css">
     <link rel="icon" type="image/x-icon" href="public/img/favicon.svg">
+    <script type="text/javascript" src="./public/js/search.js" defer></script>
     <title>Main Page</title>
 </head>
 <body>
@@ -69,9 +70,13 @@
                 <img onclick="window.location='#';" src="public/img/shipify.svg" alt="shipify">
             </div>
             <div class="search-bar">
-                <form action="">
-                    <input type="text" name="search" placeholder="search for your fav music">
-                </form>
+                    <input id='inpt' type="text" name="search" placeholder="search for your fav music" autocomplete="off">
+                    <section class="hide-n-seek">
+                        <select class="search-result">
+                            <option value=""></option>
+                            <option value=""></option>
+                        </select>
+                    </section>
             </div>
             <div class="profile-link" >
                 <p onclick="window.location='profile';" >profile</p>
@@ -81,3 +86,52 @@
     </div>
 </body>
 </html>
+
+
+<template id="search-template">
+    <option value=""></option>
+</template>
+
+<template id="song-template">
+    <main>
+        <section class="left">
+            <div class="title">
+                <p></p>
+            </div>
+            <div class="album">
+                <p></p>
+            </div>
+            <div class="photo">
+                <img src="" alt="cover">
+            </div>
+            <div class="player">
+                <a href="" target="_blank" rel="noopener noreferrer">Check on YouTube</a>
+            </div>
+        </section>
+
+        <section class="right">
+            <div class="genres">
+                <p>Main genres:</p>
+                <ul>
+                </ul>
+            </div>
+            <div class="where">
+                <p>Availible on:</p>
+                <ul>
+                </ul>
+            </div>
+            <div class="rating">
+                <p>Did you like it?</p>
+                <form action="" method="POST">
+                    <select name="ratingselect" id="myselect" onchange="this.form.submit()">
+                        <option value="1">I hate it</option>
+                        <option value="2">I don't like it</option>
+                        <option selected="selected" value="3">I'm neutral about it</option>
+                        <option value="4">I like it</option>
+                        <option value="5">I love it</option>
+                    </select>
+                </form>
+            </div>
+        </section>
+    </main>
+</template>
