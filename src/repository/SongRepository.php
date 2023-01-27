@@ -109,6 +109,15 @@ class SongRepository extends Repository
         }
     }
 
+    public function getGenreByID(int $id):string{
+        $stmt = $this->database->connect()->prepare('
+        SELECT name FROM genres where id=:id
+        ');
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
+
     private function getGenres(int $id):array
     {
         $stmt = $this->database->connect()->prepare('

@@ -2,6 +2,7 @@
 
 use models\Song;
 use repository\SongRepository;
+use repository\UserRepository;
 
 require_once 'AppController.php';
 require_once __DIR__.'/../models/Song.php';
@@ -29,6 +30,12 @@ class SongController extends AppController
 
     public function addSong(){
 
+        $userRepo = new UserRepository();
+
+        if (isset($_COOKIE["id_user"])){
+            if (!$userRepo->isAdmin($_COOKIE["id_user"])) return $this->render('profile');
+        }
+
         if (!$this->isPost()){
             return $this->render('addsong');
         }
@@ -43,7 +50,8 @@ class SongController extends AppController
             $song = new Song($_POST['title'],$_POST['author'],$_POST['album'],$_FILES['file']['name'],$_POST['genres'],$_POST['where']);
             $this->songRepository->addSong($song);
 
-            return $this->render('main',['messages'=>$this->message,'song'=>$song]);
+            $url = "http://$_SERVER[HTTP_HOST]/main";
+            header("Location: {$url}");
         }
         return $this->render('addsong', ['messages' => $this->message]);
     }

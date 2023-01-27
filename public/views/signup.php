@@ -12,39 +12,46 @@
     <title>Signup Page</title>
 </head>
 <body>
+
+    <?php
+    if(isset($_COOKIE["id_user"])){
+        header("Location: main");
+    }
+    ?>
+
     <div class="container">
         <div class="logo">
             <img src="public/img/logo.svg" alt="logo">
         </div>
         <div class="signup-container">
-            <form action="">
+            <form id="register-form">
                 <section class="title">
                     <p>We're so happy you wanna join us!</p></section> 
                 <section class="basic">
                     <p>Name:</p>
-                    <input type="text" name="name" placeholder="Tony">
+                    <input type="text" name="name" placeholder="Tony" required>
                     <p>Surname</p>
-                    <input type="text" name="surname" placeholder="Stark">
+                    <input type="text" name="surname" placeholder="Stark" required>
                     <p>Email address</p>
-                    <input type="email" name="email" placeholder="imthebest@example.com">
+                    <input type="email" name="email" placeholder="imthebest@example.com" required>
                     <p>Password</p>
-                    <input type="password" name="password" placeholder="********">
+                    <input type="password" name="password" placeholder="********" required>
                 </section>
                 <section class="details">
                     <p>My gender:</p>
-                    <select name="sex" id="sexselect">
+                    <select name="sex" id="sexselect" required>
                         <option value="1">woman</option>
                         <option value="2">man</option>
                         <option value="3">other</option>
                     </select>
                     <p>Looking for:</p>
-                    <select name="lookingfor" id="lookingforselect">
+                    <select name="lookingfor" id="lookingforselect" required>
                         <option value="1">woman</option>
                         <option value="2">man</option>
                         <option value="3">anyone</option>
                     </select>
                     <p>Username</p>
-                    <input type="text" name="username" placeholder="imthebest">
+                    <input type="text" name="username" placeholder="imthebest" required>
                     <p>That's it!</p>
                     <button type="submit">Sign up</button>
                 </section>

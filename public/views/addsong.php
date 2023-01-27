@@ -10,6 +10,13 @@
     <title>My Profile</title>
 </head>
 <body>
+
+    <?php
+    if(!isset($_COOKIE["id_user"])){
+        header("Location: welcome");
+    }
+    ?>
+
     <div class="container">
         <nav>
             <img class ="small-logo" src="public/img/shipify.svg" alt="shipify">

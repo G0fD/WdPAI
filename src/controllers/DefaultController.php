@@ -4,15 +4,11 @@ require_once 'AppController.php';
 
 class DefaultController extends AppController{
 
-    public function index(){
+    public function welcome(){
+        $this->render('welcome');
+    }
+
+    public function login(){
         $this->render('login');
-    }
-
-    public function profile(){
-        $this->render('profile');
-    }
-
-    public function signup(){
-        $this->render('signup');
     }
 }

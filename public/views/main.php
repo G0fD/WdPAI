@@ -14,7 +14,12 @@
     <div class="base-container">
         <main>
             <section class="left">
-                <?php #var_dump($songs);?>
+                <?php
+                setcookie("id_user", '1', time()+10, '/');
+                if (!isset($_COOKIE["id_user"])){
+                    header("Location:welcome");
+                }
+                ?>
                 <div class="title">
                     <p><?=$song->getAuthor()." - ".$song->getTitle()?></p>
                 </div>
@@ -41,7 +46,7 @@
                    </ul>
                 </div>
                 <div class="where">
-                    <p>Availible on:</p>
+                    <p>Available on:</p>
                     <ul>
                     <?php
                     foreach ($song->getWhere() as $where){
@@ -64,7 +69,6 @@
                 </div>
             </section>
         </main>
-        
         <footer>
             <div class="small-logo">
                 <img onclick="window.location='#';" src="public/img/shipify.svg" alt="shipify">

@@ -1,6 +1,7 @@
 <?php
 
 use models\Song;
+use models\User;
 use repository\UserRepository;
 
 require_once __DIR__.'/../repository/UserRepository.php';
@@ -14,7 +15,7 @@ class SecurityController extends AppController
         $userRepository = new UserRepository();
 
         if (!$this->isPost()){
-            return $this->render('login');
+            return $this->render('login', ['messages' => ['']]);
         }
 
         $login = $_POST["login"];
@@ -34,11 +35,41 @@ class SecurityController extends AppController
             return $this->render('login', ['messages' => ['Wrong password!']]);
         }
 
-        //tmp song
-        $song = new Song('Title','Author','album','gifnakirihello.gif',[1,2],[4,5]);
+        setcookie("id_user", $user->getId(), time()+30, '/');
+    }
 
-        return $this->render('main',['messages'=>" ",'song'=>$song]);
-        //$url = "http://$_SERVER[HTTP_HOST]";
-        //header("Location: {$url}/main");
+    public function profile(){
+
+        if (isset($_COOKIE["id_user"])){
+            $userRepository = new UserRepository();
+            return $this->render('profile', ['messages'=> " ", 'isAdmin'=>$userRepository->isAdmin($_COOKIE["id_user"])]);
+        }
+        return $this->render('login', ['messages'=> ['Session expired!']]);
+    }
+
+    public function register(){
+
+        $userRepository = new UserRepository();
+
+        if (!$this->isPost()) {
+            return $this->render('signup');
+        }
+
+        $userData = [
+            'name' => $_POST['name'],
+            'surname' => $_POST['surname'],
+            'email' => $_POST['email'],
+            'password_hash' => password_hash($_POST['password'], PASSWORD_BCRYPT),
+            'username' => $_POST['username'],
+            'lookingfor' => $_POST['lookingfor'],
+            'sex' => $_POST['sex'],
+        ];
+
+        $user = $userRepository->addUser($userData);
+
+        setcookie("id_user", $user->getId(), time()+10, '/');
+
+        $url = "http://$_SERVER[HTTP_HOST]";
+        header("Location: {$url}/main");
     }
 }

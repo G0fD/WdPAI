@@ -20,8 +20,8 @@
         <main>
             <h1>Log in or join now!</h1>
             <nav>
-                <button>Log in</button>
-                <button>Sign up</button>
+                <button onclick="window.location='login';">Log in</button>
+                <button onclick="window.location='register';">Sign up</button>
             </nav>
         </main>
     </div>

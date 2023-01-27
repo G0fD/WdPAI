@@ -9,6 +9,11 @@
     <title>Login Page</title>
 </head>
 <body>
+    <?php
+        if(isset($_COOKIE["id_user"])){
+            header("Location: main");
+        }
+    ?>
     <div class="container">
         <div class="logo">
             <img src="public/img/logo.svg" alt="logo">

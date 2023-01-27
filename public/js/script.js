@@ -1,6 +1,7 @@
 const form = document.querySelector("form");
 const emailInput = form.querySelector('input[name="email"]');
 const passwordInput = form.querySelector('input[name="password"]');
+const formID = document.querySelector("#register-form");
 
 function isEmail (email){
     return /\S+@\S+\.\S+/.test(email);
@@ -25,7 +26,7 @@ function validateEmail() {
     setTimeout(function () {
             markValidation(emailInput, isEmail(emailInput.value))
         }
-        , 1000);
+        , 10);
 }
 
 function validatePassword(){
@@ -35,8 +36,16 @@ function validatePassword(){
         );
         markValidation(passwordInput,condition);
     }
-    ,1000);
+    ,10);
 }
 
 emailInput.addEventListener('keyup', validateEmail);
 passwordInput.addEventListener('keyup', validatePassword);
+
+formID.addEventListener("submit", function(event) {
+    const noValidElement = formID.querySelector(".no-valid");
+    if (noValidElement) {
+        event.preventDefault();
+        alert("Fix input data!")
+    }
+});

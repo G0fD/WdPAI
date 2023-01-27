@@ -10,12 +10,19 @@
     <title>My Profile</title>
 </head>
 <body>
+
+<?php
+if(!isset($_COOKIE["id_user"])){
+    header("Location: welcome");
+}
+?>
+
     <div class="container">
         <nav>
             <img class ="small-logo" src="public/img/shipify.svg" alt="shipify">
             <ul>
                 <li>
-                    <a href="#" class="button">Personal information</a>
+                    <a href="welcome" class="button">Personal information</a>
                 </li>
                 <li>
                     <a href="#" class="button">Rated songs</a>
@@ -24,6 +31,8 @@
                     <a href="#" class="button">My matches</a>
                 </li>
                 <li>
+
+                    <?php if ($isAdmin) echo '<a href="addSong" class="button">Admin - Add Song</a>';?>
                 </li>
                 <li>
                     <p>SHIPify made by Jakub Jajkowicz</p>
