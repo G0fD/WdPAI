@@ -75,6 +75,10 @@ main{
     justify-content: center;
 }
 
+main>button{
+    align-self: center;
+}
+
 main>h1{
     height: 5vh;
 }

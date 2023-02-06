@@ -24,7 +24,7 @@
             <img src="public/img/logo.svg" alt="logo">
         </div>
         <div class="signup-container">
-            <form id="register-form">
+            <form id="register-form" method="POST">
                 <section class="title">
                     <p>We're so happy you wanna join us!</p></section> 
                 <section class="basic">

@@ -19,16 +19,16 @@
 
     <div class="container">
         <nav>
-            <img class ="small-logo" src="public/img/shipify.svg" alt="shipify">
+            <img class ="small-logo" src="public/img/shipify.svg" alt="shipify" onclick="window.location='main';">
             <ul>
                 <li>
-                    <a href="#" class="button">Personal information</a>
+                    <a href="profile" class="button">Personal information</a>
                 </li>
                 <li>
                     <a href="#" class="button">Rated songs</a>
                 </li>
                 <li>
-                    <a href="#" class="button">My matches</a>
+                    <a href="matches" class="button">My matches</a>
                 </li>
                 <li>
                     <a href="#" class="button">Admin - Add Song</a>
@@ -59,17 +59,17 @@
                 </section>
                 <section class="select">
 
-                <select name="genres[]" id="genres" multiple="multiple">
-                    <option value="1">Ania</option>
-                    <option value="2">Ma</option>
-                    <option value="3">Kota</option>
+                <select name="genres[]" id="genres" multiple="multiple" required>
+                    <option value="1">Rock</option>
+                    <option value="2">Pop</option>
+                    <option value="3">Rap</option>
                 </select>
 
-                <select name="where[]" id="where" multiple="multiple">
-                    <option value="YouTube Music">YouTube Music</option>
-                    <option value="Spotify">Spotify</option>
-                    <option value="Tidal">Tidal</option>
-                    <option value="SoundCloud">SoundCloud</option>
+                <select name="where[]" id="where" multiple="multiple" required>
+                    <option value="1">Spotify</option>
+                    <option value="2">YouTube Music</option>
+                    <option value="3">Tidal</option>
+                    <option value="4">SoundCloud</option>
                 </select>
 
                 </section>

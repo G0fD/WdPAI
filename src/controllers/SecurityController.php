@@ -10,9 +10,15 @@ require_once __DIR__.'/../models/User.php';
 
 class SecurityController extends AppController
 {
-    public function login(){
+    private $userRepository;
 
-        $userRepository = new UserRepository();
+    public function __construct()
+    {
+        parent::__construct();
+        $this->userRepository = new UserRepository();
+    }
+
+    public function login(){
 
         if (!$this->isPost()){
             return $this->render('login', ['messages' => ['']]);
@@ -21,7 +27,7 @@ class SecurityController extends AppController
         $login = $_POST["login"];
         $password = $_POST["password"];
 
-        $user = $userRepository->getUserByLogin($login);
+        $user = $this->userRepository->getUserByLogin($login);
 
         if (!$user){
             return $this->render('login', ['messages' => ['User does not exist!']]);
@@ -31,25 +37,26 @@ class SecurityController extends AppController
             return $this->render('login', ['messages' => ['User with this email does not exist!']]);
         }
 
-        if($user->getPassword() !== $password){
+        if(!password_verify($password, $user->getPassword())){
             return $this->render('login', ['messages' => ['Wrong password!']]);
         }
+        else{
+            setcookie("id_user", $user->getId(), time()+900, '/');
+        }
 
-        setcookie("id_user", $user->getId(), time()+30, '/');
+        $url = "http://$_SERVER[HTTP_HOST]";
+        header("Location: {$url}/main");
     }
 
     public function profile(){
 
         if (isset($_COOKIE["id_user"])){
-            $userRepository = new UserRepository();
-            return $this->render('profile', ['messages'=> " ", 'isAdmin'=>$userRepository->isAdmin($_COOKIE["id_user"])]);
+            return $this->render('profile', ['messages'=> " ", 'isAdmin'=>$this->userRepository->isAdmin($_COOKIE["id_user"])]);
         }
         return $this->render('login', ['messages'=> ['Session expired!']]);
     }
 
     public function register(){
-
-        $userRepository = new UserRepository();
 
         if (!$this->isPost()) {
             return $this->render('signup');
@@ -65,11 +72,39 @@ class SecurityController extends AppController
             'sex' => $_POST['sex'],
         ];
 
-        $user = $userRepository->addUser($userData);
+        $user = $this->userRepository->addUser($userData);
 
-        setcookie("id_user", $user->getId(), time()+10, '/');
+        setcookie("id_user", $user->getId(), time()+30, '/');
 
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/main");
+    }
+
+
+
+    public function rate(){
+        if (!$this->isPost() || !isset($_COOKIE["id_user"]) || !isset($_COOKIE["id_song"])){
+            return $this->render('main');
+        }
+        $id_user = $_COOKIE["id_user"];
+        $id_song = $_COOKIE["id_song"];
+        $rating = $_POST["ratingselect"];
+
+        $this->userRepository->addRating($id_user, $id_song, $rating);
+
+        $url = "http://$_SERVER[HTTP_HOST]";
+        header("Location: {$url}/main");
+    }
+
+    public function matches(){
+        if (!$this->isGet() || !isset($_COOKIE["id_user"]) || !isset($_COOKIE["id_song"])){
+            return $this->render('matches');
+        }
+        $id_user = $_COOKIE["id_user"];
+        $users = [];
+        foreach ($this->userRepository->tryMatch($id_user) as $match){
+            $users[] = $this->userRepository->getUserById($match);
+        }
+        return $this->render('matches', ['messages'=> " ", 'isAdmin'=>$this->userRepository->isAdmin($_COOKIE["id_user"]), 'users'=>$users]);
     }
 }

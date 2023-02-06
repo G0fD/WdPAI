@@ -4,6 +4,7 @@ namespace models;
 
 class Song
 {
+    private $id;
     private $title;
     private $author;
     private $album;
@@ -11,7 +12,7 @@ class Song
     private $genres = [];
     private $where = [];
 
-    public function __construct($title, $author, $album, $image, array $genres, array $where)
+    public function __construct($title, $author, $album, $image, array $genres, array $where, $id = null)
     {
         $this->title = $title;
         $this->author = $author;
@@ -19,6 +20,17 @@ class Song
         $this->image = $image;
         $this->genres = $genres;
         $this->where = $where;
+        $this->id =$id;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id): void
+    {
+        $this->id = $id;
     }
 
     public function getTitle(): string

@@ -25,6 +25,7 @@ class SongController extends AppController
 
     public function main(){
         $songs = $this->songRepository->getSongs();
+        setcookie("id_song", $songs[0]->getId(), time()+1800, '/');
         $this->render('main', ['song'=>$songs[0], 'songs' => $songs]);
     }
 
@@ -35,7 +36,6 @@ class SongController extends AppController
         if (isset($_COOKIE["id_user"])){
             if (!$userRepo->isAdmin($_COOKIE["id_user"])) return $this->render('profile');
         }
-
         if (!$this->isPost()){
             return $this->render('addsong');
         }
@@ -67,6 +67,45 @@ class SongController extends AppController
             http_response_code(200);
 
             echo json_encode($this->songRepository->getSongByTitleAuthor($decoded['search']));
+        }
+    }
+
+    public function display(){
+        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+        if ($contentType === "application/json"){
+            $content = trim(file_get_contents("php://input"));
+            $decoded = json_decode($content, true);
+
+            header('Content-Type: application/json');
+            http_response_code(200);
+
+            echo json_encode($this->songRepository->getSongById($decoded['display']));
+        }
+    }
+    //by song id
+    public function getGenres(){
+        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+        if ($contentType === "application/json"){
+            $content = trim(file_get_contents("php://input"));
+            $decoded = json_decode($content, true);
+
+            header('Content-Type: application/json');
+            http_response_code(200);
+
+            echo json_encode($this->songRepository->getSongGenresById($decoded['getGenres']));
+        }
+    }
+    //by song id
+    public function getProviders(){
+        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+        if ($contentType === "application/json"){
+            $content = trim(file_get_contents("php://input"));
+            $decoded = json_decode($content, true);
+
+            header('Content-Type: application/json');
+            http_response_code(200);
+
+            echo json_encode($this->songRepository->getSongProvidersById($decoded['getProviders']));
         }
     }
 

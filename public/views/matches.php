@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="public/css/style.css">
     <link rel="stylesheet" type="text/css" href="public/css/profile.css">
-    <script type="text/javascript" src="./public/js/logout.js" defer></script>
     <link rel="icon" type="image/x-icon" href="public/img/favicon.svg">
     <title>My Profile</title>
 </head>
@@ -23,13 +22,13 @@ if(!isset($_COOKIE["id_user"])){
             <img class ="small-logo" src="public/img/shipify.svg" alt="shipify" onclick="window.location='main';">
             <ul>
                 <li>
-                    <a href="#" class="button">Personal information</a>
+                    <a href="profile" class="button">Personal information</a>
                 </li>
                 <li>
                     <a href="#" class="button">Rated songs</a>
                 </li>
                 <li>
-                    <a href="matches" class="button">My matches</a>
+                    <a href="#" class="button">My matches</a>
                 </li>
                 <li>
                     <?php if ($isAdmin) echo '<a href="addSong" class="button">Admin - Add Song</a>';?>
@@ -41,7 +40,13 @@ if(!isset($_COOKIE["id_user"])){
             </ul>
         </nav>
         <main>
-            <button id="logout">Log out</button>
+            <?php
+            if (isset($users)){
+                foreach ($users as $user){
+                    echo "<p>".$user->getUsername();
+                }
+            }
+            ?>
         </main>
     </div>
 </body>

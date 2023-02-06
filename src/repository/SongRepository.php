@@ -10,31 +10,6 @@ require_once __DIR__.'/../models/Song.php';
 
 class SongRepository extends Repository
 {
-    public function getSong(int $id):?Song
-    {
-        $stmt = $this->database->connect()->prepare('
-        SELECT * FROM songs where id = :id
-        ');
-
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-
-        $song = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($song == false){
-            return null;
-        }
-
-        return new Song(
-            $song['title'],
-            $song['author'],
-            $song['album'],
-            $song['filename'],
-            $this->getGenres($song['id']),
-            []
-        );
-    }
-
     public function getSongs():array
     {
         $result = [];
@@ -50,11 +25,39 @@ class SongRepository extends Repository
                 $song['author'],
                 $song['album'],
                 $song['filename'],
-                $this->getGenres($song['id']),
-                ['Youtube',"Test"]
+                $this->getSongGenresById($song['id']),
+                $this->getSongProvidersById($song['id']),
+                $song['id']
             );
         }
         return $result;
+    }
+
+    public function getSongGenresById(int $search){
+        $stmt = $this->database->connect()->prepare('
+        SELECT * FROM genres inner join song_genres sg on genres.id = sg.id_genre where id_song = :search
+        ');
+        $stmt->bindParam(':search', $search, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getSongProvidersById(int $search){
+        $stmt = $this->database->connect()->prepare('
+        SELECT * FROM providers inner join song_providers sg on providers.id = sg.id_provider where id_song = :search
+        ');
+        $stmt->bindParam(':search', $search, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getSongById(int $search){
+        $stmt = $this->database->connect()->prepare('
+        SELECT * FROM songs WHERE songs.id = :search
+        ');
+        $stmt->bindParam(':search', $search, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function getSongByTitleAuthor(string $searchString)
@@ -70,7 +73,6 @@ class SongRepository extends Repository
     }
 
     public function addSong(Song $song): void{
-
         $dbh = $this->database->connect();
         $stmt = $dbh->prepare('
         INSERT INTO songs (title, author, album, filename) VALUES (?,?,?,?)
@@ -86,6 +88,7 @@ class SongRepository extends Repository
             ]);
             $dbh->commit();
             $song_id = $dbh->lastInsertId();
+            setcookie("id_song", $song_id, time()+1800, '/');
         }catch (\PDOException $exception){
             die("Exception song ".$exception->getMessage());
         }
@@ -107,15 +110,25 @@ class SongRepository extends Repository
                 die("Exception genres ".$exception->getMessage());
             }
         }
-    }
 
-    public function getGenreByID(int $id):string{
-        $stmt = $this->database->connect()->prepare('
-        SELECT name FROM genres where id=:id
-        ');
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetchColumn();
+        foreach ($song->getWhere() as $where){
+            $stmt = $dbh->prepare('
+            INSERT INTO song_providers (id_song, id_provider) VALUES (?,?)
+            ');
+            try {
+                $dbh->beginTransaction();
+
+                $stmt->execute([
+                    $song_id,
+                    $where
+                ]);
+
+                $dbh->commit();
+            }catch (\PDOException $exception){
+                die("Exception genres ".$exception->getMessage());
+            }
+        }
+
     }
 
     private function getGenres(int $id):array
