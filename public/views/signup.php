@@ -24,17 +24,24 @@
             <img src="public/img/logo.svg" alt="logo">
         </div>
         <div class="signup-container">
+            <?php
+            if(isset($messages)){
+                foreach ($messages as $message){
+                    echo $message;
+                }
+            }
+            ?>
             <form id="register-form" method="POST">
                 <section class="title">
                     <p>We're so happy you wanna join us!</p></section> 
                 <section class="basic">
                     <p>Name:</p>
                     <input type="text" name="name" placeholder="Tony" required>
-                    <p>Surname</p>
+                    <p>Surname: </p>
                     <input type="text" name="surname" placeholder="Stark" required>
-                    <p>Email address</p>
+                    <p>Email address: </p>
                     <input type="email" name="email" placeholder="imthebest@example.com" required>
-                    <p>Password</p>
+                    <p>Password: </p>
                     <input type="password" name="password" placeholder="********" required>
                 </section>
                 <section class="details">
@@ -50,7 +57,7 @@
                         <option value="2">man</option>
                         <option value="3">anyone</option>
                     </select>
-                    <p>Username</p>
+                    <p>Username: </p>
                     <input type="text" name="username" placeholder="imthebest" required>
                     <p>That's it!</p>
                     <button type="submit">Sign up</button>

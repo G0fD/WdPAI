@@ -13,7 +13,7 @@ class UserRepository extends Repository
     public function getUserById(int $id):?User
     {
         $stmt = $this->database->connect()->prepare('
-        SELECT * FROM public.users WHERE id=:id
+        SELECT * FROM public.users inner join public.user_details on users.id_user_details = user_details.id where users.id = :id
         ');
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
@@ -27,7 +27,8 @@ class UserRepository extends Repository
         return new User(
             $user['id'],
             $user['username'],
-            $user['password']
+            $user['password'],
+            array_diff_key($user, array_flip(['id', 'username', 'password']))
         );
     }
 
@@ -48,7 +49,8 @@ class UserRepository extends Repository
         return new User(
             $user['id'],
             $user['username'],
-            $user['password']
+            $user['password'],
+            array_diff_key($user, array_flip(['id', 'username', 'password']))
         );
     }
 
@@ -82,7 +84,7 @@ class UserRepository extends Repository
             ]);
             $dbh->commit();
         }catch (\PDOException $exception){
-            die("Exception song ".$exception->getMessage());
+            return null;
         }
         return $this->getUserByLogin($values['username']);
     }
@@ -132,9 +134,62 @@ class UserRepository extends Repository
             if ($user['id'] !== $id_user) $all_ids[] = $user['id'];
         }
         foreach ($all_ids as $single_id){
-            if (array_intersect($this->getRated($single_id),$user_rated)) $result[] = $single_id;
+            if (array_intersect($this->getRated($single_id),$user_rated)){
+                $result[] = $single_id;
+            }
         }
+        $this->addMatches($result, $id_user);
         return $result;
+    }
+
+    private function addMatches($ids, $id_user){
+        foreach ($ids as $id){
+            $index = 0;
+            foreach ($this->getMatches() as $match){
+                if ($id > $id_user){
+                    if ($match[0] == $id_user && $match[1] == $id) $index++;
+                }else{
+                    if ($match[1] == $id_user && $match[0] == $id) $index++;
+                }
+            }
+            if ($index === 0) $this->addMatch($id, $id_user);
+        }
+    }
+
+    private function addMatch($id1, $id2)
+    {
+        if ($id1 > $id2){
+            $tmp = $id2;
+            $id2 = $id1;
+            $id1 = $tmp;
+        }
+        $dbh = $this->database->connect();
+        $stmt = $dbh->prepare('
+        INSERT INTO matches VALUES (?,?)
+        ');
+
+        try{
+            $dbh->beginTransaction();
+            $stmt->execute([
+                $id1,
+                $id2
+            ]);
+            $dbh->commit();
+        }catch (\PDOException $exception){
+            die("Exception Matches ".$exception->getMessage());
+        }
+    }
+
+    private function getMatches(){
+        $stmt = $this->database->connect()->prepare('
+        SELECT * from matches
+        ');
+        $stmt->execute();
+        $tmp = $stmt->fetchAll(PDO::FETCH_NUM);
+        foreach ($tmp as &$tak){
+            sort($tak);
+        }
+        return $tmp;
     }
 
     private function getRated(int $id){

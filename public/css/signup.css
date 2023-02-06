@@ -8,6 +8,7 @@ p{
 .container{
     justify-content:flex-start;
 }
+
 .logo{
     height: 10vh;
     margin: 0;
@@ -45,7 +46,6 @@ p{
     flex-basis: 100%;
     width: 80vw;
     height: 5vh;
-    text-align: left;
     text-align: center;
 }
 
@@ -121,4 +121,60 @@ button{
     border-radius: 1em;
     box-shadow: 0 0 0.2em red;
     outline: none;
+}
+
+
+@media only screen and (max-device-width: 440px){
+
+    *{
+        font-size: 1.2vh;
+    }
+
+    .logo {
+        width: 100vw;
+        text-align: center;
+        height: 20vh;
+    }
+
+    .logo>img {
+        padding-top: 5vw;
+        width: 60vw;
+    }
+
+    .signup-container>form{
+        align-self: center;
+        width: 90vw;
+        flex-direction: row;
+        overflow: scroll;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .signup-container>form> * >input{
+        width: 80%;
+        padding-left: 5%;
+        padding-right: 5%;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+    .title{
+        margin: 0;
+        height: 10vh;
+        width: 80vw;
+    }
+
+    .basic{
+        margin: 0;
+        height: 80vh;
+        width: 80vw;
+    }
+
+    .details{
+        margin: 0;
+        height: 80vh;
+        width: 80vw;
+    }
+
 }

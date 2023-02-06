@@ -42,9 +42,12 @@ if(!isset($_COOKIE["id_user"])){
         <main>
             <?php
             if (isset($users)){
+                echo '<div class="matches">';
                 foreach ($users as $user){
-                    echo "<p>".$user->getUsername();
+                    $details = $user->getDetails();
+                    echo "<p><b>".$details['name']." ".$details['surname']."</b> contact here: <i>".$details['email']."</i></p>";
                 }
+                echo '</div>';
             }
             ?>
         </main>

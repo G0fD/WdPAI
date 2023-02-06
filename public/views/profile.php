@@ -17,7 +17,6 @@ if(!isset($_COOKIE["id_user"])){
     header("Location: welcome");
 }
 ?>
-
     <div class="container">
         <nav>
             <img class ="small-logo" src="public/img/shipify.svg" alt="shipify" onclick="window.location='main';">
@@ -41,7 +40,16 @@ if(!isset($_COOKIE["id_user"])){
             </ul>
         </nav>
         <main>
+            <?php if (isset($user)):
+                $details = $user->getDetails();
+                echo '<div class="matches">'."</p>";
+                echo "<p>".$details['name']."</p>";
+                echo "<p>".$details['surname']."</p>";
+                echo "<p>".$details['email']."</p>";
+                echo "<p>".$user->getUsername()."</p>";
+                ?>
             <button id="logout">Log out</button>
+            <?php endif?>
         </main>
     </div>
 </body>

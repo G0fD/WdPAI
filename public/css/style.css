@@ -180,15 +180,23 @@ footer{
     }
 
     .login-container > form{
-        width: 80%;
-        margin: auto;
-        height: 40vh;
+        width: 80vw;
+        margin: 0 10vw;
+        height: 45vh;
         font-size: 1vh;
     }
 
+    .login-container > form >p{
+        width: 80vw;
+        text-align: center;
+    }
+
     .logo{
-        height: 7em;
-        margin: 2em;
+        height: 10em;
+    }
+
+    .logo>img{
+        width: 100vw;
     }
 
     .profile-link>p{

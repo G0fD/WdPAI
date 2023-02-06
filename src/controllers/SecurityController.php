@@ -41,7 +41,7 @@ class SecurityController extends AppController
             return $this->render('login', ['messages' => ['Wrong password!']]);
         }
         else{
-            setcookie("id_user", $user->getId(), time()+900, '/');
+            setcookie("id_user", $user->getId(), time()+1800, '/');
         }
 
         $url = "http://$_SERVER[HTTP_HOST]";
@@ -51,7 +51,7 @@ class SecurityController extends AppController
     public function profile(){
 
         if (isset($_COOKIE["id_user"])){
-            return $this->render('profile', ['messages'=> " ", 'isAdmin'=>$this->userRepository->isAdmin($_COOKIE["id_user"])]);
+            return $this->render('profile', ['messages'=> " ", 'isAdmin'=>$this->userRepository->isAdmin($_COOKIE["id_user"]), 'user'=>$this->userRepository->getUserById($_COOKIE["id_user"])]);
         }
         return $this->render('login', ['messages'=> ['Session expired!']]);
     }
@@ -74,10 +74,13 @@ class SecurityController extends AppController
 
         $user = $this->userRepository->addUser($userData);
 
-        setcookie("id_user", $user->getId(), time()+30, '/');
-
-        $url = "http://$_SERVER[HTTP_HOST]";
-        header("Location: {$url}/main");
+        if(is_null($user)){
+            return $this->render('signup', ['messages'=> ['Username or email is taken!']]);
+        }else{
+            setcookie("id_user", $user->getId(), time()+1800, '/');
+            $url = "http://$_SERVER[HTTP_HOST]";
+            header("Location: {$url}/main");
+        }
     }
 
 
