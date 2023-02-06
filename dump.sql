@@ -96,6 +96,40 @@ CREATE TABLE public.matches (
 ALTER TABLE public.matches OWNER TO dbuser;
 
 --
+-- Name: providers; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.providers (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.providers OWNER TO dbuser;
+
+--
+-- Name: providers_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.providers_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.providers_id_seq OWNER TO dbuser;
+
+--
+-- Name: providers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.providers_id_seq OWNED BY public.providers.id;
+
+
+--
 -- Name: roles; Type: TABLE; Schema: public; Owner: dbuser
 --
 
@@ -142,6 +176,18 @@ CREATE TABLE public.song_genres (
 ALTER TABLE public.song_genres OWNER TO dbuser;
 
 --
+-- Name: song_providers; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.song_providers (
+    id_song integer NOT NULL,
+    id_provider integer NOT NULL
+);
+
+
+ALTER TABLE public.song_providers OWNER TO dbuser;
+
+--
 -- Name: songs; Type: TABLE; Schema: public; Owner: dbuser
 --
 
@@ -167,8 +213,7 @@ CREATE TABLE public.users (
     email character varying(255) NOT NULL,
     username character varying(255) NOT NULL,
     password character varying(255) NOT NULL,
-    enabled boolean DEFAULT false NOT NULL,
-    salt boolean
+    enabled boolean DEFAULT false NOT NULL
 );
 
 
@@ -263,6 +308,13 @@ ALTER TABLE ONLY public.genres ALTER COLUMN id SET DEFAULT nextval('public.genre
 
 
 --
+-- Name: providers id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.providers ALTER COLUMN id SET DEFAULT nextval('public.providers_id_seq'::regclass);
+
+
+--
 -- Name: roles id; Type: DEFAULT; Schema: public; Owner: dbuser
 --
 
@@ -295,9 +347,9 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.table_
 --
 
 COPY public.genres (id, name) FROM stdin;
-1	rock
-2	pop
-3	rap
+1	Rock
+3	Rap
+2	Pop
 \.
 
 
@@ -306,6 +358,10 @@ COPY public.genres (id, name) FROM stdin;
 --
 
 COPY public.liked_by (id_user, id_song, rating) FROM stdin;
+1	2	3
+1	1	5
+6	1	5
+8	1	5
 \.
 
 
@@ -314,6 +370,20 @@ COPY public.liked_by (id_user, id_song, rating) FROM stdin;
 --
 
 COPY public.matches (id_user1, id_user2) FROM stdin;
+1	6
+1	8
+\.
+
+
+--
+-- Data for Name: providers; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.providers (id, name) FROM stdin;
+1	Spotify
+2	Youtube Music
+3	Tidal
+4	SoundCloud
 \.
 
 
@@ -335,6 +405,46 @@ COPY public.song_genres (id_song, id_genre) FROM stdin;
 1	1
 1	2
 2	3
+5	1
+6	1
+6	3
+7	1
+7	2
+7	3
+8	1
+8	3
+10	1
+10	2
+12	1
+13	1
+13	3
+14	1
+14	2
+14	3
+15	1
+\.
+
+
+--
+-- Data for Name: song_providers; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.song_providers (id_song, id_provider) FROM stdin;
+1	1
+2	1
+5	1
+6	1
+7	1
+8	1
+10	1
+12	1
+1	2
+13	3
+14	1
+14	2
+14	3
+15	1
+15	3
 \.
 
 
@@ -345,6 +455,15 @@ COPY public.song_genres (id_song, id_genre) FROM stdin;
 COPY public.songs (id, title, author, album, filename) FROM stdin;
 1	Hourglass	Hollywood Undead	Hotel Kalifornia	hukalifornia.jpg
 2	Jeżyk	OKI	PRODUKT47	idk2.png
+5	Tytuł	Nazwa autora	Nazwa albumu	gifnakirihello.gif
+6	Ala	Makota	Tak	Screenshot 2022-11-17 102134.png
+7	Ola	Nie ma	Koteczka	Zrzut ekranu 2021-11-11 230517.png
+8	Kot	Kot Tok	KOT	Screenshot 2022-11-03 151328.png
+10	Bloodborne	none	FromSoftware	Screenshot 2023-02-05 161702.png
+12	test1	test2	test3	1.11.png
+13	asdfasfasfasf	asfasfasfasf	asfasfasf	5.5.png
+14	Ruin my life	Hollywood Undead	Hotel Kalifornia	9.7.png
+15	Upload	Upload	Test	5.4.png
 \.
 
 
@@ -354,6 +473,15 @@ COPY public.songs (id, title, author, album, filename) FROM stdin;
 
 COPY public.user_details (id, name, surname, gender, interested_in) FROM stdin;
 1	John	Snow	1	3
+2	Jan	Nowak	1	3
+3	Ola	Kot	2	2
+4	Tony	Stark	2	1
+5	Alanik	Tak	1	1
+6	fa	asfa	1	1
+7	fa	asfa	1	1
+8	asda	asdasd	1	1
+9	Ala	fhdfh	1	1
+10	asd	asd	1	1
 \.
 
 
@@ -361,8 +489,14 @@ COPY public.user_details (id, name, surname, gender, interested_in) FROM stdin;
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: dbuser
 --
 
-COPY public.users (id, id_role, id_user_details, email, username, password, enabled, salt) FROM stdin;
-1	1	1	jsnow@pk.edu.pl	jsnow	john123	f	\N
+COPY public.users (id, id_role, id_user_details, email, username, password, enabled) FROM stdin;
+2	2	2	jnowak@o2.pl	anow	123	f
+6	1	3	ola@o2.pl	ola	123	f
+7	2	4	imthebest@o2.pl	imthebest	$2y$10$oI6Ak7dka9pFXrrtK7Bt0OUuJJ.aeyo5mPi.6vxlZ/YT6zs1FNBZC	f
+1	1	1	jsnow@pk.edu.pl	jsnow	$2y$10$1bDg6frjs0uywyD2SV7uIOAmE5fAx6HOEADSNpfqsGD9igX8AdiBS	f
+8	2	5	sdfgkfhu@of.pl	alanik	$2y$10$fCV5UXdAIaXSSs20nv/B8.L.xDNVUJO4yTjuXozP/vknZWlYRsQeC	f
+12	2	9	o2@o2.pl	best	$2y$10$/tFFfFcb0aqBhG14bos72uCeOsHka9SNb0px7O2QF5/dWhKGon.Ea	f
+13	2	10	a@pk.pl	aslda	$2y$10$PNAFB.Rk44QXSeCxMxjE8u3D.8wqIXOo08cn7MYRvtjf5dvup0jzm	f
 \.
 
 
@@ -371,6 +505,13 @@ COPY public.users (id, id_role, id_user_details, email, username, password, enab
 --
 
 SELECT pg_catalog.setval('public.genres_id_seq', 3, true);
+
+
+--
+-- Name: providers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.providers_id_seq', 4, true);
 
 
 --
@@ -384,21 +525,21 @@ SELECT pg_catalog.setval('public.roles_id_seq', 2, true);
 -- Name: table_name_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
 --
 
-SELECT pg_catalog.setval('public.table_name_id_seq', 1, true);
+SELECT pg_catalog.setval('public.table_name_id_seq', 13, true);
 
 
 --
 -- Name: table_name_id_song_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
 --
 
-SELECT pg_catalog.setval('public.table_name_id_song_seq', 2, true);
+SELECT pg_catalog.setval('public.table_name_id_song_seq', 16, true);
 
 
 --
 -- Name: user_details_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
 --
 
-SELECT pg_catalog.setval('public.user_details_id_seq', 1, true);
+SELECT pg_catalog.setval('public.user_details_id_seq', 10, true);
 
 
 --
@@ -415,6 +556,22 @@ ALTER TABLE ONLY public.genres
 
 ALTER TABLE ONLY public.genres
     ADD CONSTRAINT genres_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: providers providers_name_key; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.providers
+    ADD CONSTRAINT providers_name_key UNIQUE (name);
+
+
+--
+-- Name: providers providers_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.providers
+    ADD CONSTRAINT providers_pkey PRIMARY KEY (id);
 
 
 --
@@ -447,14 +604,6 @@ ALTER TABLE ONLY public.roles
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT table_name_email_key UNIQUE (email);
-
-
---
--- Name: songs table_name_filename_key; Type: CONSTRAINT; Schema: public; Owner: dbuser
---
-
-ALTER TABLE ONLY public.songs
-    ADD CONSTRAINT table_name_filename_key UNIQUE (filename);
 
 
 --
@@ -543,6 +692,22 @@ ALTER TABLE ONLY public.song_genres
 
 ALTER TABLE ONLY public.song_genres
     ADD CONSTRAINT "song_genres_songFK" FOREIGN KEY (id_song) REFERENCES public.songs(id);
+
+
+--
+-- Name: song_providers song_providers_providers_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.song_providers
+    ADD CONSTRAINT song_providers_providers_id_fk FOREIGN KEY (id_provider) REFERENCES public.providers(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: song_providers song_providers_songs_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.song_providers
+    ADD CONSTRAINT song_providers_songs_id_fk FOREIGN KEY (id_song) REFERENCES public.songs(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
